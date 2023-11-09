@@ -14,7 +14,7 @@ For future ideas, we look out to do:
 3. MIPS 32 bits single-cycle
 4. MIPS 32 bits multi-cycle with pipelining
 
-Note that the second project has many stages of hazard detection and optimization implementations, we ought to develop those as well.
+Note that the fourth project has many stages of hazard detection and optimization implementations, we ought to develop those as well.
 
 
 References:
