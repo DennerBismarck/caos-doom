@@ -5,7 +5,7 @@
 
 char * toBinaryString(int decimal, int bitsNumber);
 int fromBinary(char * binaryString);
-int saveResult(int result, char * filename);
+int saveResult(int result, char * filename, int * counter);
 
 // Definition of instruction set constants
 #define ADD "add"
@@ -31,7 +31,7 @@ int main(int argc, char * argv[]){
     int instType;
     char filename[100];
     char * instruction;
-    char instOpcode[] = "000000";
+    char instOpcode[7] = "000000";
     char * instCode;
     char funct[FUNCTSIZE];
     __uint16_t rd, rs, rt;
@@ -43,10 +43,13 @@ int main(int argc, char * argv[]){
     char * jumpAddressC;
     char * immd16C;
     int result = 0;
+    int instructionCounter = 0;
+    system("cls || clear");
     printf("Digite um nome para o arquivo de seu programa: ");
     scanf("%100s", filename);
     system("cls || clear");
     do{
+        instCode = malloc(sizeof(char) * 33);
         printf("Selecione o tipo de instrução\n");
         printf("1. R-Type\n");
         printf("2. I-Type\n");
@@ -59,12 +62,12 @@ int main(int argc, char * argv[]){
         switch (instType)
         {
         case 1:
-
-            instCode = malloc(sizeof(char) * 33);
+            rs, rt, rd = 0;
             instruction = malloc(sizeof(char) * 5);
             reg1 = malloc(sizeof(char) * REGSIZE);
             reg2 = malloc(sizeof(char) * REGSIZE);
             reg3 = malloc(sizeof(char) * REGSIZE);
+            result = 0;
 
             printf("Digite a instrução: ");
             scanf("%5s", instruction);
@@ -113,22 +116,23 @@ int main(int argc, char * argv[]){
             instCode[32] = '\0';
             
             result = fromBinary(instCode);
-            saveResult(result, filename);
+            saveResult(result, filename, &instructionCounter);
             printf("Your instruction in hexa is: %08x \n \n \n", result);
 
-            free(instCode);
             free(instruction);
+            
 
 
             break;
         
         case 2:
 
-            instCode = malloc(sizeof(char) * 33);
+            rs, rt, rd = 0;
             instruction = malloc(sizeof(char) * 5);
             reg1 = malloc(sizeof(char) * REGSIZE);
             reg2 = malloc(sizeof(char) * REGSIZE);
             immd16C = malloc(sizeof(char) * 16);
+            result = 0;
 
             printf("Digite a instrução: ");
             scanf("%5s", instruction);
@@ -137,7 +141,7 @@ int main(int argc, char * argv[]){
             printf("Digite o rt(em decimal): ");
             scanf("%hu", &rt);
             printf("\n");
-            printf("Digite o imediato de 16bits(endereço de palavra)(em hexa): ");
+            printf("Digite o imediato de 16 bits(endereço de palavra)(em hexa): ");
             scanf("%hx", &immd16);
             printf("\n");
             system("cls || clear");
@@ -160,29 +164,32 @@ int main(int argc, char * argv[]){
             }
             else if(!strcmp(instruction, LW)){
                 strncpy(instOpcode, "100011", 7);
+                printf("HEY!");
             }
 
             strcat(instCode, instOpcode);
+            printf("%s \n", instCode);
             strcat(instCode, reg1);
+            printf("%s \n", instCode);
             strcat(instCode, reg2);
+            printf("%s \n", instCode);
             strcat(instCode, immd16C);
+            printf("%s \n", instCode);
 
             instCode[32] = '\0';
 
             result = fromBinary(instCode);
-            saveResult(result, filename);
+            saveResult(result, filename, &instructionCounter);
             printf("Your instruction in hexa is: %08x \n \n \n", result);
 
-            free(instCode);
             free(instruction);
-            free(immd16C);
 
             break;
 
         case 3:
 
-            instCode = malloc(sizeof(char) * 33);
             jumpAddressC = malloc(sizeof(char) * 26);
+            result = 0;
             printf("Digite o endereço para o jump(Endereço de palavra)(em hexa): ");
             scanf("%x", &jumpAddress);
             printf("\n");
@@ -196,17 +203,16 @@ int main(int argc, char * argv[]){
             instCode[32] = '\0';
 
             result = fromBinary(instCode);
-            saveResult(result, filename);
+            saveResult(result, filename, &instructionCounter);
             printf("Your instruction in hexa is: %08x \n \n \n", result);
-
-            free(instCode);
-            free(jumpAddressC);
 
             break;
         
         default:
             break;
         }
+
+        free(instCode);
 
     }while(instType != 0);
 
@@ -248,7 +254,7 @@ int fromBinary(char * binaryString){
     
 }
 
-int saveResult(int result, char * filename){
+int saveResult(int result, char * filename, int * counter){
 
     FILE * filePointer;
 
@@ -256,9 +262,15 @@ int saveResult(int result, char * filename){
 
     if(filePointer == NULL){
         filePointer = fopen(filename, "w");
+        fprintf(filePointer, "v2.0 raw \n");
     }
 
     fprintf(filePointer, "%08x ", result);
+    *counter = *counter + 1;
+
+    if(*counter % 8 == 0){
+        fprintf(filePointer, "\n");
+    }
 
     fclose(filePointer);
 }
