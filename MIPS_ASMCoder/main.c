@@ -6,6 +6,7 @@
 char * toBinaryString(int decimal, int bitsNumber);
 int fromBinary(char * binaryString);
 int saveResult(int result, char * filename, int * counter);
+int arg1IsASM(char * filename);
 
 // Definition of instruction set constants
 #define ADD "add"
@@ -25,196 +26,17 @@ int saveResult(int result, char * filename, int * counter);
 #define IMMDSIZE 16
 
 
-
+// To use compiler, ran it with args (file.s ramfilename)
 int main(int argc, char * argv[]){
 
-    int instType;
-    char filename[100];
-    char * instruction;
-    char instOpcode[7] = "000000";
-    char * instCode;
-    char funct[FUNCTSIZE];
-    __uint16_t rd, rs, rt;
-    char * reg1;
-    char * reg2;
-    char * reg3;
-    __uint16_t immd16;
-    int jumpAddress;
-    char * jumpAddressC;
-    char * immd16C;
-    int result = 0;
-    int instructionCounter = 0;
-    system("cls || clear");
-    printf("Digite um nome para o arquivo de seu programa: ");
-    scanf("%100s", filename);
-    system("cls || clear");
-    do{
-        instCode = malloc(sizeof(char) * 33);
-        printf("Selecione o tipo de instrução\n");
-        printf("1. R-Type\n");
-        printf("2. I-Type\n");
-        printf("3. J-Type\n");
-        printf("0. Sair\n");
-        printf("Digite o tipo de instrução: ");
-        scanf("%d", &instType);
-        system("cls || clear");
+    if(!(argc == 2)){
+        printf("Too few arguments passed to main");
+        return 1;
+    }
 
-        switch (instType)
-        {
-        case 1:
-            rs, rt, rd = 0;
-            instruction = malloc(sizeof(char) * 5);
-            reg1 = malloc(sizeof(char) * REGSIZE);
-            reg2 = malloc(sizeof(char) * REGSIZE);
-            reg3 = malloc(sizeof(char) * REGSIZE);
-            result = 0;
-
-            printf("Digite a instrução: ");
-            scanf("%5s", instruction);
-            printf("Digite o rs(em decimal): ");
-            scanf("%hu", &rs);
-            printf("Digite o rt(em decimal): ");
-            scanf("%hu", &rt);
-            printf("Digite o rd(em decimal): ");
-            scanf("%hu", &rd);
-            printf("\n");
-            system("cls || clear");
-
-            if(!strcmp(instruction, ADD)){
-                strncpy(funct, "100000", FUNCTSIZE);
-            }
-            else if(!strcmp(instruction, SUB)){
-                strncpy(funct, "100010", FUNCTSIZE);
-            }
-            else if(!strcmp(instruction, SLT)){
-                strncpy(funct, "101010", FUNCTSIZE);
-            }
-            else if(!strcmp(instruction, AND)){
-                strncpy(funct, "100100", FUNCTSIZE);
-            }
-            else if(!strcmp(instruction, OR)){
-                strncpy(funct, "100101", FUNCTSIZE);
-            }
-            else if(!strcmp(instruction, NAND)){
-                strncpy(funct, "100110", FUNCTSIZE);
-            }
-            else if(!strcmp(instruction, NOR)){
-                strncpy(funct, "100111", FUNCTSIZE);
-            }
-
-            reg3 = toBinaryString(rd, REGSIZE);
-            reg1 = toBinaryString(rs, REGSIZE);
-            reg2 = toBinaryString(rt, REGSIZE);
-
-            strcat(instCode, instOpcode);
-            strcat(instCode, reg1);
-            strcat(instCode, reg2);
-            strcat(instCode, reg3);
-            strcat(instCode, "00000"); // Shamt
-            strcat(instCode, funct);
-
-            instCode[32] = '\0';
-            
-            result = fromBinary(instCode);
-            saveResult(result, filename, &instructionCounter);
-            printf("Your instruction in hexa is: %08x \n \n \n", result);
-
-            free(instruction);
-            
-
-
-            break;
-        
-        case 2:
-
-            rs, rt, rd = 0;
-            instruction = malloc(sizeof(char) * 5);
-            reg1 = malloc(sizeof(char) * REGSIZE);
-            reg2 = malloc(sizeof(char) * REGSIZE);
-            immd16C = malloc(sizeof(char) * 16);
-            result = 0;
-
-            printf("Digite a instrução: ");
-            scanf("%5s", instruction);
-            printf("Digite o rs(em decimal): ");
-            scanf("%hu", &rs);
-            printf("Digite o rt(em decimal): ");
-            scanf("%hu", &rt);
-            printf("\n");
-            printf("Digite o imediato de 16 bits(endereço de palavra)(em hexa): ");
-            scanf("%hx", &immd16);
-            printf("\n");
-            system("cls || clear");
-
-            immd16 = immd16 << 2;
-
-            immd16C = toBinaryString(immd16, 16);
-
-            reg2 = toBinaryString(rt, REGSIZE);
-            reg1 = toBinaryString(rs, REGSIZE);
-
-            if(!strcmp(instruction, ADDI)){
-                strncpy(instOpcode, "001000", 7);
-            }
-            else if(!strcmp(instruction, BEQ)){
-                strncpy(instOpcode, "000100", 7);
-            }
-            else if(!strcmp(instruction, SW)){
-                strncpy(instOpcode, "101011", 7);
-            }
-            else if(!strcmp(instruction, LW)){
-                strncpy(instOpcode, "100011", 7);
-                printf("HEY!");
-            }
-
-            strcat(instCode, instOpcode);
-            printf("%s \n", instCode);
-            strcat(instCode, reg1);
-            printf("%s \n", instCode);
-            strcat(instCode, reg2);
-            printf("%s \n", instCode);
-            strcat(instCode, immd16C);
-            printf("%s \n", instCode);
-
-            instCode[32] = '\0';
-
-            result = fromBinary(instCode);
-            saveResult(result, filename, &instructionCounter);
-            printf("Your instruction in hexa is: %08x \n \n \n", result);
-
-            free(instruction);
-
-            break;
-
-        case 3:
-
-            jumpAddressC = malloc(sizeof(char) * 26);
-            result = 0;
-            printf("Digite o endereço para o jump(Endereço de palavra)(em hexa): ");
-            scanf("%x", &jumpAddress);
-            printf("\n");
-            system("cls || clear");
-
-            immd16C = toBinaryString(jumpAddress, 26);
-
-            strcat(instCode, "000010");
-            strcat(instCode, immd16C);
-
-            instCode[32] = '\0';
-
-            result = fromBinary(instCode);
-            saveResult(result, filename, &instructionCounter);
-            printf("Your instruction in hexa is: %08x \n \n \n", result);
-
-            break;
-        
-        default:
-            break;
-        }
-
-        free(instCode);
-
-    }while(instType != 0);
+    if(!arg1IsASM()){
+        printf("No assembly file was passed as argument 1")
+    }
 
 }
 
@@ -273,4 +95,18 @@ int saveResult(int result, char * filename, int * counter){
     }
 
     fclose(filePointer);
+}
+
+int setupFile(char * filename){
+    FILE * filePointer;
+
+    FILE * filePointer;
+
+    filePointer = fopen(filename, "r");
+
+    if(filePointer == NULL){
+        filePointer = fopen(filename, "w");
+        fprintf(filePointer, "v3.0 raw \n");
+    }
+    
 }

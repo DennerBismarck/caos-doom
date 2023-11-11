@@ -404,31 +404,31 @@
       <a name="offcolor" val="#000000"/>
       <a name="selloc" val="tr"/>
     </comp>
-    <comp lib="8" loc="(146,686)" name="Text">
+    <comp lib="8" loc="(145,685)" name="Text">
       <a name="text" val="Pino de Setup"/>
     </comp>
-    <comp lib="8" loc="(216,910)" name="Text">
+    <comp lib="8" loc="(215,910)" name="Text">
       <a name="text" val="PT-BR"/>
     </comp>
-    <comp lib="8" loc="(351,742)" name="Text">
+    <comp lib="8" loc="(350,740)" name="Text">
       <a name="text" val="Pino de Clock"/>
     </comp>
-    <comp lib="8" loc="(388,795)" name="Text">
+    <comp lib="8" loc="(385,795)" name="Text">
       <a name="text" val="Always toggle setup pin once before using the CPU"/>
     </comp>
-    <comp lib="8" loc="(408,845)" name="Text">
+    <comp lib="8" loc="(405,845)" name="Text">
       <a name="text" val="If ClearCPU has been used, toggle SetupPin once again"/>
     </comp>
-    <comp lib="8" loc="(431,820)" name="Text">
+    <comp lib="8" loc="(430,820)" name="Text">
       <a name="text" val="Use ClearCPU pin for resetting all registers and PC on the CPU"/>
     </comp>
-    <comp lib="8" loc="(444,987)" name="Text">
+    <comp lib="8" loc="(440,985)" name="Text">
       <a name="text" val="Se o pino de ClearCPU for usado, ligue e desligue o pino de Setup"/>
     </comp>
-    <comp lib="8" loc="(464,937)" name="Text">
+    <comp lib="8" loc="(460,935)" name="Text">
       <a name="text" val="Sempre ligue e desligue o pino de Setup uma vez antes de usar a CPU"/>
     </comp>
-    <comp lib="8" loc="(511,961)" name="Text">
+    <comp lib="8" loc="(510,960)" name="Text">
       <a name="text" val="Use o pino ClearCPU para resetar todos os registradores e o Contador de Programa"/>
     </comp>
     <comp loc="(1080,520)" name="RegisterBankOut"/>
