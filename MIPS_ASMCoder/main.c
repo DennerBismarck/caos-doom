@@ -11,6 +11,7 @@
 #define JTYPEMATCH "([j] 0x[0-9]{7})"
 #define ITYPEMATCH "([a-z]+ [$][a-z0-9]+[,] [$][a-z0-9]+[,] 0x[0-9]{4})"
 #define MEMTYPEMATCH "([a-z]+ [$][a-z0-9]+[,] 0x[0-9]{4}[(][$][a-z0-9]+[)])"
+#define IMMD16MATCH "0x[0-9]{4}"
 
 
 // Definition of instruction set constants
@@ -33,10 +34,8 @@
 #define REGSIZE 5
 #define FUNCTSIZE 6
 #define IMMDSIZE 16
-#define LINESIZE 20
+#define LINESIZE 30
 #define MEMSIZE 65536
-#define INSTARRAYSIZE 100
-#define REGBANKSIZE 31
 #define HASHTABLECAPACITY 31
 
 // Struct Definitions
@@ -88,6 +87,7 @@ HashTable
 unsigned long hash_function(char* str);
 int searchKey(hashtable_t * table, char * key);
 hashtable_t * initializeTable(hashtable_t * table);
+regItem_t * create_item(char* key, unsigned int value);
 
 
 // Function signatures
@@ -97,11 +97,12 @@ int saveResult(int * memory, char * filename);
 int regMatch(char * matchString, char * matchRegex, match_t * matched);
 int lineLexicAnalyze(char * line, match_t * myMatch);
 int setupFile(char * filename);
-char * readLine(FILE * fp);
+int readLine(FILE * fp, char * line);
 int setFunct(instruction_t * inst,  match_t * match);
 int setReg(instruction_t * inst, char * line, char * reg, hashtable_t * table);
 char * regPosition(char * line);
-regItem_t * create_item(char* key, unsigned int value);
+int setOpcode(instruction_t * inst, match_t * match);
+int setImmd16(instruction_t * inst, match_t * match);
 
 // To use compiler, ran it with args (file.s ramfilename)
 int main(int argc, char ** argv){
@@ -128,9 +129,9 @@ int main(int argc, char ** argv){
 
     filePointer = fopen(argv[1], "r");
 
-    instruction_t * myInstructions = malloc(sizeof(instruction_t) * INSTARRAYSIZE);
-
     char * line = malloc(LINESIZE);
+
+    memset(line, 0, LINESIZE);
 
     instruction_t * instruction = malloc(sizeof(instruction_t));
 
@@ -149,8 +150,10 @@ int main(int argc, char ** argv){
     char * instructionC = malloc(32);
 
     while(!feof(filePointer)){
-        line = readLine(filePointer);
-
+        readLine(filePointer, line);
+        memset(instructionC, 0, 32);
+        memset(instruction, 0, sizeof(instruction_t));
+        
         if(lineLexicAnalyze(line, myMatch)){
             printf("Error in lexic analysis");
         }
@@ -165,23 +168,23 @@ int main(int argc, char ** argv){
                 printf("error in setting funct in line %s", lineError);
             }
             line = regPosition(line);
+            if(setReg(instruction, line, "rd", hashTable)){
+                printf("error in setting rd register in line %s", lineError);
+            }
+            line = regPosition(line);
             if(setReg(instruction, line, "rs", hashTable)){
                 printf("error in setting rs register in line %s", lineError);
             }
             line = regPosition(line);
             if(setReg(instruction, line, "rt", hashTable)){
-                printf("error in setting rs register in line %s", lineError);
-            }
-            line = regPosition(line);
-            if(setReg(instruction, line, "rd", hashTable)){
-                printf("error in setting rs register in line %s", lineError);
+                printf("error in setting rt register in line %s", lineError);
             }
             instruction->shamt = 0x0;
 
             strcat(instructionC, toBinaryString(instruction->opcode, OPCODESIZE));
             strcat(instructionC, toBinaryString(instruction->rs, REGSIZE));
-            strcat(instructionC, toBinaryString(instruction->rd, REGSIZE));
             strcat(instructionC, toBinaryString(instruction->rt, REGSIZE));
+            strcat(instructionC, toBinaryString(instruction->rd, REGSIZE));
             strcat(instructionC, toBinaryString(instruction->shamt, REGSIZE));
             strcat(instructionC, toBinaryString(instruction->funct, FUNCTSIZE));
 
@@ -207,9 +210,19 @@ int main(int argc, char ** argv){
                 printf("error in setting rs register in line %s", lineError);
             }
             instruction->rd = 0x0;
+            regMatch(line, IMMD16MATCH, myMatch);
+            setImmd16(instruction, myMatch);
 
+            strcat(instructionC, toBinaryString(instruction->opcode, OPCODESIZE));
+            strcat(instructionC, toBinaryString(instruction->rs, REGSIZE));
+            strcat(instructionC, toBinaryString(instruction->rt, REGSIZE));
+            instruction->shamt = 0x0;
+            strcat(instructionC, toBinaryString(instruction->immd16, IMMDSIZE));
 
+            instruction->instruction = toDecimal(instructionC);
 
+            memory[counter] = instruction->instruction;
+            
             break;
         
         case 2: // J-TYPE
@@ -324,15 +337,14 @@ int regMatch(char * matchString, char * matchRegex, match_t * matched){
         matched->instType = 0;
 
         printf("Error in regex comp on %s", matchString);
-        exit(1);
+        return 1;
     }
 
     if(regexec(reg, matchString, 1, pmatch, 0) != 0){
         matched->status = 1;
         matched->pmatch = (char *) NULL;
         matched->instType = 0;
-        printf("Error in regex exec on %s", matchString);
-        exit(1);
+        return 1;
 
     }
 
@@ -344,6 +356,7 @@ int regMatch(char * matchString, char * matchRegex, match_t * matched){
     matched->pmatch = result;
 
     matched->instType = 0;
+
     return 0;
     
 }
@@ -376,13 +389,9 @@ int lineLexicAnalyze(char * line, match_t * myMatch){
 
 }
 
-char * readLine(FILE * fp){
-
-    char * line = malloc(LINESIZE);
+int readLine(FILE * fp, char * line){
 
     fgets(line, LINESIZE, fp);
-
-    return line;
 
 }
 
@@ -435,26 +444,26 @@ int searchKey(hashtable_t * table, char * key){
     regItem_t * reg = table->regBank[index];
 
     // Provide only non-NULL values.
-    if (reg != NULL)
+    if (reg == NULL)
     {
-        if(strcmp(reg->key, key) == 0)
+        return -1;
+    }
+    if(strcmp(reg->key, key) == 0){
             return reg->value;
     }
-
-    return -1;
 }
 
 hashtable_t * initializeTable(hashtable_t * table){
 
-    char * myRegNames[] = {
+    char * myRegNames[] = { "zero", 
         "at", "v0", "v1", "a0", "a1", "a2", "a3", "t0", "t1", "t2", "t3", "t4", "t5", "t6", "t7", "s0", "s1", "s2", "s3",
         "s4", "s5", "s6", "s7", "t8", "t9", "k0" , "k1", "gp", "sp", "fp", "ra"
     };
 
-    regItem_t ** regBank = malloc(sizeof(regItem_t *) *  31);
+    regItem_t ** regBank = malloc(sizeof(regItem_t *) *  32);
 
-    for(unsigned int i = 1; i < 31; i++){
-        regBank[i] = create_item(myRegNames[i - 1], i);
+    for(unsigned int i = 0; i < 32; i++){
+        regBank[i] = create_item(myRegNames[i], i);
     }
 
     table->regBank = regBank;
@@ -544,4 +553,24 @@ int setOpcode(instruction_t * inst, match_t * match){
 
     printf("Set Opcode error");
     exit(1);
+}
+
+int setImmd16(instruction_t * inst, match_t * match){
+
+    char * immd16C = malloc(8);
+
+    char * pmatch;
+
+    pmatch = match->pmatch;
+
+    pmatch = pmatch + 2;
+
+    memset(immd16C, 0, 8);
+
+    strncpy(immd16C, pmatch, 4);
+
+    inst->immd16 = strtol(immd16C, NULL, 16) << 2;
+
+    return 0;
+
 }
