@@ -569,7 +569,7 @@ int setImmd16(instruction_t * inst, match_t * match){
 
     strncpy(immd16C, pmatch, 4);
 
-    inst->immd16 = strtol(immd16C, NULL, 16) << 2;
+    inst->immd16 = strtol(immd16C, NULL, 16);
 
     return 0;
 
