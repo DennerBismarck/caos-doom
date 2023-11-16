@@ -12,6 +12,7 @@
 #define ITYPEMATCH "([a-z]+ [$][a-z0-9]+[,] [$][a-z0-9]+[,] 0x[0-9]{4})"
 #define MEMTYPEMATCH "([a-z]+ [$][a-z0-9]+[,] 0x[0-9]{4}[(][$][a-z0-9]+[)])"
 #define IMMD16MATCH "0x[0-9]{4}"
+#define JADDRMATCH "0x[0-9]{7}"
 
 
 // Definition of instruction set constants
@@ -36,7 +37,7 @@
 #define IMMDSIZE 16
 #define LINESIZE 30
 #define MEMSIZE 65536
-#define HASHTABLECAPACITY 31
+#define HASHTABLECAPACITY 32
 
 // Struct Definitions
 
@@ -88,6 +89,7 @@ unsigned long hash_function(char* str);
 int searchKey(hashtable_t * table, char * key);
 hashtable_t * initializeTable(hashtable_t * table);
 regItem_t * create_item(char* key, unsigned int value);
+void printRegBank(hashtable_t * table);
 
 
 // Function signatures
@@ -103,6 +105,7 @@ int setReg(instruction_t * inst, char * line, char * reg, hashtable_t * table);
 char * regPosition(char * line);
 int setOpcode(instruction_t * inst, match_t * match);
 int setImmd16(instruction_t * inst, match_t * match);
+int setJumpAddress(instruction_t * inst, match_t * match);
 
 // To use compiler, ran it with args (file.s ramfilename)
 int main(int argc, char ** argv){
@@ -138,6 +141,8 @@ int main(int argc, char ** argv){
     hashtable_t * hashTable = malloc(sizeof(hashtable_t));
 
     hashTable = initializeTable(hashTable);
+
+    printRegBank(hashTable);
 
     unsigned int linePos;
 
@@ -226,9 +231,57 @@ int main(int argc, char ** argv){
             break;
         
         case 2: // J-TYPE
+            strncpy(lineError, line, 30);
+            regMatch(line, OPERATIONMATCH, myMatch);
+            if(setOpcode(instruction, myMatch)){
+                printf("error in setting opcode in line %s", lineError);
+            }
+            instruction->funct = 0x0;
+            instruction->rs = 0x0;
+            instruction->rt = 0x0;
+            instruction->rd = 0x0;
+            instruction->shamt = 0x0;
+            instruction->immd16 = 0x0;
+            regMatch(line, JADDRMATCH, myMatch);
+            setJumpAddress(instruction, myMatch);
+
+            strcat(instructionC, toBinaryString(instruction->opcode, OPCODESIZE));
+            strcat(instructionC, toBinaryString(instruction->jumpAddress, JUMPADDSIZE));
+
+            instruction->instruction = toDecimal(instructionC);
+
+            memory[counter] = instruction->instruction;
             break;
         
         case 3: // MEM-TYPE
+            strncpy(lineError, line, 30);
+            regMatch(line, OPERATIONMATCH, myMatch);
+            if(setOpcode(instruction, myMatch)){
+                printf("error in setting opcode in line %s", lineError);
+            }
+            instruction->funct = 0x0;
+            line = regPosition(line);
+            if(setReg(instruction, line, "rt", hashTable)){
+                printf("error in setting rs register in line %s", lineError);
+            }
+            regMatch(line, IMMD16MATCH, myMatch);
+            setImmd16(instruction, myMatch);
+            line = regPosition(line);
+            if(setReg(instruction, line, "rs", hashTable)){
+                printf("error in setting rs register in line %s", lineError);
+            }
+            instruction->rd = 0x0;
+            instruction->shamt = 0x0;
+            instruction->funct = 0x0;
+            strcat(instructionC, toBinaryString(instruction->opcode, OPCODESIZE));
+            strcat(instructionC, toBinaryString(instruction->rs, REGSIZE));
+            strcat(instructionC, toBinaryString(instruction->rt, REGSIZE));
+            strcat(instructionC, toBinaryString(instruction->immd16, IMMDSIZE));
+
+            instruction->instruction = toDecimal(instructionC);
+
+            memory[counter] = instruction->instruction;
+
             break;
         
         default:
@@ -429,33 +482,18 @@ int setFunct(instruction_t * inst, match_t * match){
     exit(1);
 }
 
-unsigned long hash_function(char* str)
-{
-    unsigned i = 0;
-
-    for (int j = 0; str[j]; j++){   
-        i += str[j];
-    }
-    return i % HASHTABLECAPACITY;
-}
-
 int searchKey(hashtable_t * table, char * key){
-    int index = hash_function(key) - 1;
-    regItem_t * reg = table->regBank[index];
-
-    // Provide only non-NULL values.
-    if (reg == NULL)
-    {
-        return -1;
-    }
-    if(strcmp(reg->key, key) == 0){
-            return reg->value;
+    
+    for(int i = 0; i < HASHTABLECAPACITY; i++){
+        if(strcmp(table->regBank[i]->key, key) == 0){
+            return table->regBank[i]->value;
+        }
     }
 }
 
 hashtable_t * initializeTable(hashtable_t * table){
 
-    char * myRegNames[] = { "zero", 
+    char * myRegNames[] = { "ze", 
         "at", "v0", "v1", "a0", "a1", "a2", "a3", "t0", "t1", "t2", "t3", "t4", "t5", "t6", "t7", "s0", "s1", "s2", "s3",
         "s4", "s5", "s6", "s7", "t8", "t9", "k0" , "k1", "gp", "sp", "fp", "ra"
     };
@@ -522,7 +560,7 @@ char * regPosition(char * line){
 regItem_t * create_item(char* key, unsigned int value)
 {
     // Creates a pointer to a new HashTable item.
-    regItem_t* item =  malloc(sizeof(regItem_t));
+    regItem_t * item =  malloc(sizeof(regItem_t));
     item->key = malloc(strlen(key) + 1);
     item->value = value;
     strncpy(item->key, key, strlen(key) + 1);
@@ -574,3 +612,33 @@ int setImmd16(instruction_t * inst, match_t * match){
     return 0;
 
 }
+
+int setJumpAddress(instruction_t * inst, match_t * match){
+
+    char * JAddrC = malloc(10);
+
+    char * pmatch;
+
+    pmatch = match->pmatch;
+
+    pmatch = pmatch + 2;
+
+    memset(JAddrC, 0, 10);
+
+    strncpy(JAddrC, pmatch, 7);
+
+    inst->jumpAddress = strtol(JAddrC, NULL, 16);
+
+    return 0;
+
+
+
+}
+
+void printRegBank(hashtable_t * table){
+
+    for(int i = 0; i < 32; i++){
+        printf("Reg name: %s\n", table->regBank[i]->key);
+        printf("Reg value: %d\n",table->regBank[i]->value);
+    }
+}   
