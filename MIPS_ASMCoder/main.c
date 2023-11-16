@@ -140,9 +140,13 @@ int main(int argc, char ** argv){
 
     hashtable_t * hashTable = malloc(sizeof(hashtable_t));
 
+    printf("hashtable pointer: %p", hashTable);
+
     hashTable = initializeTable(hashTable);
 
     printRegBank(hashTable);
+
+    printf("reg s0: %d", searchKey(hashTable, "s0"));
 
     unsigned int linePos;
 
