@@ -16,18 +16,24 @@ For future ideas, we look out to do:
 
 Note that the fourth project has many stages of hazard detection and optimization implementations, we ought to develop those as well.
 
-# Using the MIPS ASM Coder
+# Using the MIPS ASSEMBLER
 
 To use the MIPS ASM Coder, you should first compile it to an executable using the command below:
 
 ```console
-gcc -o main main.c -lm
+gcc -o main main.c
 ```
-After compiling the code, follow the instructions below to run it:
+After compiling the code, run it with:
 
+```console
+./main <yourAsm>.s <yourRamImgFile>
+```
 
-After you finish the main program, your instructions should be programmed into a file named with the filename given.
+After you finish the main program, your instructions should be programmed into your RAM image file.
 
+Notes:
+
+The program currently running with Seg Fault without a call to a printf at the beginning of the code. Still studying the reasons behind it.
 
 References:
 
