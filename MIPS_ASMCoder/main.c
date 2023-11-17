@@ -115,14 +115,14 @@ int main(int argc, char ** argv){
         return 1;
     }
 
-    match_t * myMatch = malloc(sizeof(match_t) * 1);
+    match_t * myMatch =  (match_t *) malloc(sizeof(match_t) * 1);
 
     if(regMatch(argv[1], FILEEXTENSIONMATCH, myMatch)){
         printf("No assembly file was passed as argument 1 \n");
         return 1;
     }
 
-    int * memory = malloc(sizeof(int) * MEMSIZE);
+    int * memory = (int *) malloc(sizeof(int) * MEMSIZE); // diminuir memória
 
     memset(memory, 0, sizeof(int) * MEMSIZE);
 
@@ -132,31 +132,27 @@ int main(int argc, char ** argv){
 
     filePointer = fopen(argv[1], "r");
 
-    char * line = malloc(LINESIZE);
+    char * line = (char *) malloc(LINESIZE);
 
     memset(line, 0, LINESIZE);
 
-    instruction_t * instruction = malloc(sizeof(instruction_t));
+    instruction_t * instruction = (instruction_t *) malloc(sizeof(instruction_t));
 
-    hashtable_t * hashTable = malloc(sizeof(hashtable_t));
+    hashtable_t * hashTable = (hashtable_t *) malloc(sizeof(hashtable_t));
 
-    printf("hashtable pointer: %p", hashTable);
+    printf("hashtable pointer: %p\n", hashTable);
 
     hashTable = initializeTable(hashTable);
 
-    printRegBank(hashTable);
-
-    printf("reg s0: %d", searchKey(hashTable, "s0"));
-
     unsigned int linePos;
 
-    char * lineError = malloc(LINESIZE);
+    char * lineError = (char *) malloc(LINESIZE);
 
     int counter = 0;
 
     int errorMatch;
 
-    char * instructionC = malloc(32);
+    char * instructionC = (char *) malloc(32);
 
     while(!feof(filePointer)){
         readLine(filePointer, line);
@@ -302,7 +298,7 @@ int main(int argc, char ** argv){
 
 char * toBinaryString(int decimal, int bitsNumber){
 
-    char * binaryOut = malloc(bitsNumber + 1);
+    char * binaryOut = (char *) malloc(bitsNumber + 1);
 
     int remainder;
 
@@ -380,10 +376,10 @@ int setupFile(char * filename){
 
 int regMatch(char * matchString, char * matchRegex, match_t * matched){
     
-    regex_t * reg = malloc(sizeof(regex_t));
-    regmatch_t * pmatch = malloc(sizeof(regmatch_t));
+    regex_t * reg = (regex_t *) malloc(sizeof(regex_t));
+    regmatch_t * pmatch = (regmatch_t *) malloc(sizeof(regmatch_t));
 
-    char * result = malloc(20);
+    char * result = (char *) malloc(20);
     memset(result, 0, 20);
 
     int len;
@@ -502,7 +498,7 @@ hashtable_t * initializeTable(hashtable_t * table){
         "s4", "s5", "s6", "s7", "t8", "t9", "k0" , "k1", "gp", "sp", "fp", "ra"
     };
 
-    regItem_t ** regBank = malloc(sizeof(regItem_t *) *  32);
+    regItem_t ** regBank = (regItem_t **) malloc(sizeof(regItem_t *) *  32);
 
     for(unsigned int i = 0; i < 32; i++){
         regBank[i] = create_item(myRegNames[i], i);
@@ -516,7 +512,7 @@ hashtable_t * initializeTable(hashtable_t * table){
 
 int setReg(instruction_t * inst, char * line, char * reg, hashtable_t * table){
     
-    char * regName = malloc(3);
+    char * regName = (char *) malloc(3);
     memset(regName, 0, 3);
 
     if(strcmp("rs", reg) == 0){
@@ -564,8 +560,8 @@ char * regPosition(char * line){
 regItem_t * create_item(char* key, unsigned int value)
 {
     // Creates a pointer to a new HashTable item.
-    regItem_t * item =  malloc(sizeof(regItem_t));
-    item->key = malloc(strlen(key) + 1);
+    regItem_t * item =  (regItem_t *) malloc(sizeof(regItem_t));
+    item->key = (char *) malloc(strlen(key) + 1);
     item->value = value;
     strncpy(item->key, key, strlen(key) + 1);
     return item;
@@ -599,7 +595,7 @@ int setOpcode(instruction_t * inst, match_t * match){
 
 int setImmd16(instruction_t * inst, match_t * match){
 
-    char * immd16C = malloc(8);
+    char * immd16C = (char *) malloc(8);
 
     char * pmatch;
 
@@ -619,7 +615,7 @@ int setImmd16(instruction_t * inst, match_t * match){
 
 int setJumpAddress(instruction_t * inst, match_t * match){
 
-    char * JAddrC = malloc(10);
+    char * JAddrC = (char *) malloc(10);
 
     char * pmatch;
 
