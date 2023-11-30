@@ -73,41 +73,25 @@ memoryList = []
 
 def main():
 
-    if len(sys.argv) < 4:
-        print("Not enough arguments passed!")
-        return 1
+    textFile = input("Input text segment filename: ")
 
-    if re.search(FILEREGEX, sys.argv[1]) == None:
-        print("Wrong arguments passed to main!")
-        return 1
+    if not os.path.exists(textFile):
+        print("Text file does not exist")
+        exit()
+
+    dataFile = input("Input data segment filename: ")
+
+    if not os.path.exists(dataFile):
+        print("Data file does not exist")
+        exit()
+
+    programFile = input("Input a name for program file: ")
+
     
-    if not os.path.isfile(sys.argv[1]):
-        print(f"File named '{sys.argv[1]}' does not exist")
-        return 1
-    
-    asmFile = open(sys.argv[1], "r")
 
-    for line in asmFile:
-        print(line, end='')
-        line = line.lower()
-        
-        if re.match(RTYPEREGEX, line) != None:
-            treatRType(line)
-            continue
-        
-        elif re.match(ITYPEMATCH, line) != None:
-            treatIType(line)
-            continue
-        
-        elif re.match(JTYPEMATCH, line) != None:
-            treatJType(line)
-            continue
-        
-        elif re.match(MEMTYPEMATCH, line) != None:
-            treatMemType(line)
-            continue
 
-    print()
+
+
     
 
 if __name__ == "__main__":
