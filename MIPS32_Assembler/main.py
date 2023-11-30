@@ -73,7 +73,7 @@ memoryList = []
 
 def main():
 
-    if len(sys.argv) < 3:
+    if len(sys.argv) < 4:
         print("Not enough arguments passed!")
         return 1
 
@@ -109,111 +109,6 @@ def main():
 
     print()
     
-def treatRType(asmLine):
-
-    inst = re.match(OPERATIONMATCH, asmLine)
-    regs = re.compile(REGMATCH)
-    regs = regs.findall(asmLine)
-    opcode = InstructionSet.get(inst.group())[0]
-    funct = InstructionSet.get(inst.group())[1]
-    rd = RegBank.get(regs[0])
-    rs = RegBank.get(regs[1])
-    rt = RegBank.get(regs[2])
-    shamt = 0x0
-    immd16 = 0x0
-    jumpAddr = 0x0
-
-    opcode = opcode << 26
-    rs = rs << 21
-    rt = rt << 16
-    rd = rd << 11
-    
-    instructionComplete = opcode + rs + rt + rd + shamt + funct + immd16 + jumpAddr
-
-    strHex = "0x%0.8X" % instructionComplete
-
-    memoryList.append(strHex)
-
-    return 0
-
-def treatIType(asmLine):
-
-    inst = re.match(OPERATIONMATCH, asmLine)
-    regs = re.compile(REGMATCH)
-    regs = regs.findall(asmLine)
-    opcode = InstructionSet.get(inst.group())[0]
-    immd16 = re.search(IMMD16MATCH, asmLine).group()
-
-    funct = 0x0
-    if opcode == 4:
-        rs = RegBank.get(regs[0])
-        rt = RegBank.get(regs[1])
-        rd = 0x0
-    else:
-        rt = RegBank.get(regs[0])
-        rs = RegBank.get(regs[1])
-        rd = 0x0
-    shamt = 0x0
-    immd16 = int(immd16, 0)
-    jumpAddr = 0x0
-
-    opcode = opcode << 26
-    rs = rs << 21
-    rt = rt << 16
-    
-    instructionComplete = opcode + rs + rt + rd + shamt + funct + immd16 + jumpAddr
-
-    strHex = "0x%0.8X" % instructionComplete
-
-    memoryList.append(strHex)
-
-    return 0
-
-def treatJType(asmLine):
-
-    jumpAddr = re.search(JADDRMATCH, asmLine).group()
-    opcode = 0x2
-    funct = 0x0
-    rs = 0x0
-    rt = 0x0
-    rd = 0x0
-    shamt = 0x0
-    immd16 = 0x0
-    jumpAddr = int(jumpAddr, 0)
-
-    opcode = opcode << 26
-    
-    instructionComplete = opcode + rs + rt + rd + shamt + funct + immd16 + jumpAddr
-
-    strHex = "0x%0.8X" % instructionComplete
-    
-    memoryList.append(strHex)
-
-    return 0
-
-def treatMemType(asmLine):
-
-    inst = re.match(OPERATIONMATCH, asmLine)
-    regs = re.compile(REGMATCH)
-    regs = regs.findall(asmLine)
-    opcode = 0x2
-    funct = 0x0
-    rs = 0x0
-    rt = 0x0
-    rd = 0x0
-    shamt = 0x0
-    immd16 = 0x0
-    jumpAddr = int(jumpAddr, 0)
-
-    opcode = opcode << 26
-    
-    instructionComplete = opcode + rs + rt + rd + shamt + funct + immd16 + jumpAddr
-
-    strHex = "0x%0.8X" % instructionComplete
-    
-    memoryList.append(strHex)
-
-    return 0
 
 if __name__ == "__main__":
     main()
