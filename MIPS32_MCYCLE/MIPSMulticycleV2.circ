@@ -419,6 +419,10 @@
       <a name="label" val="Setup"/>
       <a name="labelfont" val="SansSerif bold 12"/>
     </comp>
+    <comp lib="0" loc="(550,580)" name="Tunnel">
+      <a name="facing" val="east"/>
+      <a name="label" val="CLK"/>
+    </comp>
     <comp lib="0" loc="(580,410)" name="Tunnel">
       <a name="facing" val="south"/>
       <a name="label" val="Inst"/>
@@ -496,7 +500,7 @@
       <a name="facing" val="south"/>
       <a name="label" val="Setup"/>
     </comp>
-    <comp lib="0" loc="(910,570)" name="Tunnel">
+    <comp lib="0" loc="(900,570)" name="Tunnel">
       <a name="facing" val="north"/>
       <a name="label" val="CLK"/>
     </comp>
@@ -630,27 +634,34 @@
     </comp>
     <comp lib="8" loc="(330,885)" name="Text">
       <a name="text" val="PT-BR"/>
+      <a name="valign" val="center"/>
     </comp>
     <comp lib="8" loc="(350,740)" name="Text">
       <a name="text" val="Pino de Clock"/>
     </comp>
     <comp lib="8" loc="(505,790)" name="Text">
       <a name="text" val="Always toggle setup pin once before using the CPU"/>
+      <a name="valign" val="center"/>
     </comp>
-    <comp lib="8" loc="(520,835)" name="Text">
+    <comp lib="8" loc="(525,835)" name="Text">
       <a name="text" val="If ClearCPU has been used, toggle SetupPin once again"/>
+      <a name="valign" val="center"/>
     </comp>
-    <comp lib="8" loc="(545,815)" name="Text">
+    <comp lib="8" loc="(545,810)" name="Text">
       <a name="text" val="Use ClearCPU pin for resetting all registers and PC on the CPU"/>
+      <a name="valign" val="center"/>
     </comp>
-    <comp lib="8" loc="(565,950)" name="Text">
+    <comp lib="8" loc="(570,950)" name="Text">
       <a name="text" val="Se o pino de ClearCPU for usado, ligue e desligue o pino de Setup"/>
+      <a name="valign" val="center"/>
     </comp>
-    <comp lib="8" loc="(585,910)" name="Text">
+    <comp lib="8" loc="(585,905)" name="Text">
       <a name="text" val="Sempre ligue e desligue o pino de Setup uma vez antes de usar a CPU"/>
+      <a name="valign" val="center"/>
     </comp>
     <comp lib="8" loc="(635,930)" name="Text">
       <a name="text" val="Use o pino ClearCPU para resetar todos os registradores e o Contador de Programa"/>
+      <a name="valign" val="center"/>
     </comp>
     <comp loc="(1070,490)" name="RegisterBankOut"/>
     <comp loc="(1350,650)" name="ALUControl">
@@ -664,6 +675,7 @@
       <a name="labelloc" val="south"/>
     </comp>
     <comp loc="(560,440)" name="DataInstMemory"/>
+    <comp loc="(650,580)" name="DataRegister"/>
     <comp loc="(690,350)" name="InstRegister"/>
     <comp loc="(930,200)" name="ControlUnit"/>
     <comp loc="(970,490)" name="RegisterBank"/>
@@ -790,17 +802,19 @@
     <wire from="(530,340)" to="(530,420)"/>
     <wire from="(550,360)" to="(550,420)"/>
     <wire from="(550,360)" to="(580,360)"/>
+    <wire from="(550,580)" to="(590,580)"/>
     <wire from="(560,440)" to="(580,440)"/>
     <wire from="(580,320)" to="(580,360)"/>
     <wire from="(580,320)" to="(590,320)"/>
     <wire from="(580,410)" to="(580,440)"/>
-    <wire from="(580,440)" to="(580,580)"/>
+    <wire from="(580,440)" to="(580,570)"/>
     <wire from="(580,440)" to="(600,440)"/>
-    <wire from="(580,580)" to="(800,580)"/>
+    <wire from="(580,570)" to="(590,570)"/>
     <wire from="(590,300)" to="(590,320)"/>
     <wire from="(590,320)" to="(620,320)"/>
     <wire from="(620,320)" to="(620,340)"/>
     <wire from="(650,300)" to="(650,340)"/>
+    <wire from="(650,580)" to="(800,580)"/>
     <wire from="(680,320)" to="(680,340)"/>
     <wire from="(680,320)" to="(700,320)"/>
     <wire from="(690,350)" to="(750,350)"/>
@@ -848,9 +862,9 @@
     <wire from="(850,540)" to="(850,570)"/>
     <wire from="(850,540)" to="(870,540)"/>
     <wire from="(880,120)" to="(880,160)"/>
+    <wire from="(900,560)" to="(900,570)"/>
     <wire from="(910,140)" to="(910,160)"/>
     <wire from="(910,140)" to="(960,140)"/>
-    <wire from="(910,560)" to="(910,570)"/>
     <wire from="(920,460)" to="(920,470)"/>
     <wire from="(920,700)" to="(1110,700)"/>
     <wire from="(930,170)" to="(940,170)"/>
@@ -867,9 +881,8 @@
     <wire from="(930,390)" to="(1020,390)"/>
     <wire from="(950,560)" to="(950,610)"/>
     <wire from="(960,120)" to="(960,140)"/>
-    <wire from="(970,490)" to="(980,490)"/>
+    <wire from="(970,490)" to="(1000,490)"/>
     <wire from="(970,520)" to="(1000,520)"/>
-    <wire from="(980,490)" to="(1000,490)"/>
   </circuit>
   <circuit name="DataInstMemory">
     <a name="appearance" val="custom"/>
@@ -965,6 +978,7 @@
     <comp lib="4" loc="(660,140)" name="RAM">
       <a name="addrWidth" val="16"/>
       <a name="appearance" val="classic"/>
+      <a name="asyncread" val="true"/>
       <a name="dataWidth" val="32"/>
       <a name="labelvisible" val="true"/>
     </comp>
@@ -972,7 +986,6 @@
     <wire from="(350,250)" to="(410,250)"/>
     <wire from="(350,290)" to="(430,290)"/>
     <wire from="(360,150)" to="(400,150)"/>
-    <wire from="(360,490)" to="(410,490)"/>
     <wire from="(360,530)" to="(410,530)"/>
     <wire from="(380,410)" to="(620,410)"/>
     <wire from="(410,190)" to="(410,250)"/>
@@ -1821,11 +1834,11 @@ b 26*0 e 7*0 11
       <circ-port dir="in" pin="1080,1350" x="50" y="80"/>
       <circ-port dir="in" pin="220,730" x="50" y="100"/>
       <circ-port dir="in" pin="220,810" x="50" y="120"/>
-      <circ-port dir="in" pin="220,890" x="50" y="130"/>
+      <circ-port dir="in" pin="220,890" x="80" y="140"/>
       <circ-port dir="in" pin="220,950" x="130" y="140"/>
       <circ-port dir="in" pin="230,670" x="100" y="50"/>
       <circ-port dir="in" pin="450,1310" x="50" y="60"/>
-      <circ-port dir="out" pin="1320,1390" x="160" y="70"/>
+      <circ-port dir="out" pin="1320,1390" x="150" y="100"/>
       <circ-port dir="out" pin="710,1350" x="150" y="70"/>
     </appear>
     <comp lib="0" loc="(1020,940)" name="Splitter">
@@ -5361,44 +5374,133 @@ b 26*0 e 7*0 11
       <a name="select" val="5"/>
       <a name="width" val="32"/>
     </comp>
-    <comp lib="8" loc="(689,229)" name="Text">
+    <comp lib="8" loc="(1225,220)" name="Text">
+      <a name="text" val="s0"/>
+      <a name="valign" val="center"/>
+    </comp>
+    <comp lib="8" loc="(1225,310)" name="Text">
+      <a name="text" val="s1"/>
+      <a name="valign" val="center"/>
+    </comp>
+    <comp lib="8" loc="(1225,400)" name="Text">
+      <a name="text" val="s2"/>
+      <a name="valign" val="center"/>
+    </comp>
+    <comp lib="8" loc="(1225,490)" name="Text">
+      <a name="text" val="s3"/>
+      <a name="valign" val="center"/>
+    </comp>
+    <comp lib="8" loc="(1225,580)" name="Text">
+      <a name="text" val="s4"/>
+      <a name="valign" val="center"/>
+    </comp>
+    <comp lib="8" loc="(1225,670)" name="Text">
+      <a name="text" val="s5"/>
+      <a name="valign" val="center"/>
+    </comp>
+    <comp lib="8" loc="(1225,760)" name="Text">
+      <a name="text" val="s6"/>
+      <a name="valign" val="center"/>
+    </comp>
+    <comp lib="8" loc="(1225,850)" name="Text">
+      <a name="text" val="s7"/>
+      <a name="valign" val="center"/>
+    </comp>
+    <comp lib="8" loc="(1495,220)" name="Text">
+      <a name="text" val="t8"/>
+      <a name="valign" val="center"/>
+    </comp>
+    <comp lib="8" loc="(1495,310)" name="Text">
+      <a name="text" val="t9"/>
+      <a name="valign" val="center"/>
+    </comp>
+    <comp lib="8" loc="(1495,400)" name="Text">
+      <a name="text" val="k0"/>
+      <a name="valign" val="center"/>
+    </comp>
+    <comp lib="8" loc="(1495,490)" name="Text">
+      <a name="text" val="k1"/>
+      <a name="valign" val="center"/>
+    </comp>
+    <comp lib="8" loc="(1495,580)" name="Text">
+      <a name="text" val="gp"/>
+      <a name="valign" val="center"/>
+    </comp>
+    <comp lib="8" loc="(1495,670)" name="Text">
+      <a name="text" val="sp"/>
+      <a name="valign" val="center"/>
+    </comp>
+    <comp lib="8" loc="(1495,760)" name="Text">
+      <a name="text" val="fp"/>
+      <a name="valign" val="center"/>
+    </comp>
+    <comp lib="8" loc="(1495,850)" name="Text">
+      <a name="text" val="ra"/>
+      <a name="valign" val="center"/>
+    </comp>
+    <comp lib="8" loc="(685,220)" name="Text">
       <a name="text" val="zero"/>
+      <a name="valign" val="center"/>
     </comp>
-    <comp lib="8" loc="(689,319)" name="Text">
+    <comp lib="8" loc="(685,310)" name="Text">
       <a name="text" val="at"/>
+      <a name="valign" val="center"/>
     </comp>
-    <comp lib="8" loc="(690,410)" name="Text">
+    <comp lib="8" loc="(685,400)" name="Text">
       <a name="text" val="v0"/>
+      <a name="valign" val="center"/>
     </comp>
-    <comp lib="8" loc="(690,500)" name="Text">
+    <comp lib="8" loc="(685,490)" name="Text">
       <a name="text" val="v1"/>
+      <a name="valign" val="center"/>
     </comp>
-    <comp lib="8" loc="(690,589)" name="Text">
+    <comp lib="8" loc="(685,580)" name="Text">
       <a name="text" val="a0"/>
+      <a name="valign" val="center"/>
     </comp>
-    <comp lib="8" loc="(690,679)" name="Text">
+    <comp lib="8" loc="(685,670)" name="Text">
       <a name="text" val="a1"/>
+      <a name="valign" val="center"/>
     </comp>
-    <comp lib="8" loc="(690,769)" name="Text">
+    <comp lib="8" loc="(685,760)" name="Text">
       <a name="text" val="a2"/>
+      <a name="valign" val="center"/>
     </comp>
-    <comp lib="8" loc="(690,859)" name="Text">
+    <comp lib="8" loc="(685,850)" name="Text">
       <a name="text" val="a3"/>
+      <a name="valign" val="center"/>
     </comp>
-    <comp lib="8" loc="(960,230)" name="Text">
+    <comp lib="8" loc="(955,220)" name="Text">
       <a name="text" val="t0"/>
+      <a name="valign" val="center"/>
     </comp>
-    <comp lib="8" loc="(960,320)" name="Text">
+    <comp lib="8" loc="(955,310)" name="Text">
       <a name="text" val="t1"/>
+      <a name="valign" val="center"/>
     </comp>
-    <comp lib="8" loc="(960,410)" name="Text">
+    <comp lib="8" loc="(955,400)" name="Text">
       <a name="text" val="t2"/>
+      <a name="valign" val="center"/>
     </comp>
-    <comp lib="8" loc="(960,500)" name="Text">
+    <comp lib="8" loc="(955,490)" name="Text">
       <a name="text" val="t3"/>
+      <a name="valign" val="center"/>
     </comp>
-    <comp lib="8" loc="(960,590)" name="Text">
+    <comp lib="8" loc="(955,580)" name="Text">
       <a name="text" val="t4"/>
+      <a name="valign" val="center"/>
+    </comp>
+    <comp lib="8" loc="(955,670)" name="Text">
+      <a name="text" val="t5"/>
+      <a name="valign" val="center"/>
+    </comp>
+    <comp lib="8" loc="(955,760)" name="Text">
+      <a name="text" val="t6"/>
+      <a name="valign" val="center"/>
+    </comp>
+    <comp lib="8" loc="(955,850)" name="Text">
+      <a name="text" val="t7"/>
+      <a name="valign" val="center"/>
     </comp>
     <comp loc="(1000,220)" name="GenericReg"/>
     <comp loc="(1000,310)" name="GenericReg"/>
