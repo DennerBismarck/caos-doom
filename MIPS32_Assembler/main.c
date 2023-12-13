@@ -35,8 +35,8 @@
 #define REGSIZE 5
 #define FUNCTSIZE 6
 #define IMMDSIZE 16
-#define LINESIZE 30
-#define MEMSIZE 65536
+#define LINESIZE 1000
+#define MEMSIZE 256
 #define HASHTABLECAPACITY 32
 
 // Struct Definitions
@@ -140,8 +140,6 @@ int main(int argc, char ** argv){
 
     hashtable_t * hashTable = (hashtable_t *) malloc(sizeof(hashtable_t));
 
-    printf("hashtable pointer: %p\n", hashTable);
-
     hashTable = initializeTable(hashTable);
 
     unsigned int linePos;
@@ -162,6 +160,8 @@ int main(int argc, char ** argv){
         if(lineLexicAnalyze(line, myMatch)){
             printf("Error in lexic analysis");
         }
+
+        printf("instruction: %s\n", line);
 
         switch (myMatch->instType)
         {
@@ -195,6 +195,13 @@ int main(int argc, char ** argv){
 
             instruction->instruction = toDecimal(instructionC);
 
+            printf("Instruction opcode: %d\n", instruction->opcode);
+            printf("Instruction rs: %d\n", instruction->rs);
+            printf("Instruction rt: %d\n", instruction->rt);
+            printf("Instruction rd: %d\n", instruction->rd);
+            printf("Instruction shamt: %d\n", instruction->shamt);
+            printf("Instruction funct: %d\n\n", instruction->funct);
+
             memory[counter] = instruction->instruction;
 
             break;
@@ -226,6 +233,11 @@ int main(int argc, char ** argv){
 
             instruction->instruction = toDecimal(instructionC);
 
+            printf("Instruction opcode: %d\n", instruction->opcode);
+            printf("Instruction rs: %d\n", instruction->rs);
+            printf("Instruction rt: %d\n", instruction->rt);
+            printf("Instruction immd16: %d\n\n", instruction->immd16);
+
             memory[counter] = instruction->instruction;
             
             break;
@@ -249,6 +261,9 @@ int main(int argc, char ** argv){
             strcat(instructionC, toBinaryString(instruction->jumpAddress, JUMPADDSIZE));
 
             instruction->instruction = toDecimal(instructionC);
+
+            printf("Instruction opcode: %d\n", instruction->opcode);
+            printf("Instruction jump address: %d\n\n", instruction->jumpAddress);
 
             memory[counter] = instruction->instruction;
             break;
@@ -350,10 +365,8 @@ int saveResult(int * memory, char * filename){
 
         fprintf(filePointer, " %08x", memory[counter]);
     }
-    return 0;
-
     
-
+    return 0;
     
 }
 

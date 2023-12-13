@@ -26,7 +26,7 @@ gcc -o main main.c
 After compiling the code, run it with:
 
 ```console
-./main <yourAsm>.s <yourRamImgFile>
+./main <yourAsm>.s <nameForRAMFile>
 ```
 
 After you finish the main program, your instructions should be programmed into your RAM image file.
