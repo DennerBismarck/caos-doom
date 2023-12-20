@@ -1,0 +1,50 @@
+APRESENTAÇÃO
+
+TEMA: Apresentação das versões de microprocessador MIPS 32 bits Multiciclo e Ciclo Único
+
+Setting up:
+
+1. Abrir a apresentação
+2. Abrir a imagem do programa
+3. Abrir o Ciclo Único
+4. Abrir o Multiciclo
+5. Abrir Matriz de Controle Malvino
+
+1. Introdução ao tema e ao trabalho
+
+	- Me apresentar, introduzir a ideia didática do projeto e o que foi feito.
+
+2. Apresentação do conjunto de instruções
+
+	- Tabela do conjunto de instruções, formatos de instrução.
+
+3. Montagem de um programa
+
+	- Apresentar a montagem de um programa e também as imagens em memória.
+
+4.1 Apresentação do caminho de dados Ciclo Único
+
+	- Mostrar o caminho de dados e alguns componentes importantes, também utilizando imagens com focos.
+	- Apresentar as regiões do microprocessador.
+
+4.2 Apresentação do funcionamento do Ciclo Único
+
+	- Rodar o programa e explicar o que está acontecendo e os sinais mais importantes.
+
+5.1 Apresentação do caminho de dados Multiciclo
+
+	- Mostrar o caminho de dados e alguns componentes importantes, também utilizando imagens com focos.
+	- Apresentar as regiões do microprocessador.
+
+5.2 Apresentação do funcionamento do Multiciclo
+
+	- Rodar o programa e explicar o que está acontecendo e os sinais mais importantes.
+
+6. Constrastes entre as duas versões
+
+	- Melhor utilização dos componentes do processador.
+	- Matriz de controle x Memória de controle
+	- Breve discussão sobre perfomance
+
+7. Espaço para discussão de ideias (elaborar)
+
