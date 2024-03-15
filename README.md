@@ -1,39 +1,20 @@
-# MAS
-Microprocessor and Architecture Simulation
+# CAOS
+Computer Architecture and Organization Studies
 
-This repository is focused on developing Microprocessor architecture simulations using Logisim Evolution.
+This repository has as it's main objective to produce didatic material for the following courses:
 
-Currently, these are the projects developed: 
+1. BSI1102 - Introdução a Informática
+2. BSI1105 - Arquitetura de Computadores
 
-1. MiniMIPS 16 bits single-cycle 
-2. MIPS 32 bits multi-cycle without pipelining (in dev)
+This project has as main collaborators, both MSc. Luiz Paulo de Assis Barbosa and Undergraduate Iago Gouveia Gurgel.
 
+As of now, the materials under production are:
 
-For future ideas, we look out to do:
+1. Introdução a Informática U1 - Capítulo 1 - Sistemas de Numeração
+2. Didatic Tools for both courses
+3. MAS (Microprocessor and Architecture Simulation)
 
-3. MIPS 32 bits single-cycle
-4. MIPS 32 bits multi-cycle with pipelining
+For future ideas, the project seeks out to do:
 
-Note that the fourth project has many stages of hazard detection and optimization implementations, we ought to develop those as well.
-
-# Using the MIPS ASSEMBLER
-
-To use the MIPS ASM Coder, you should first compile it to an executable using the command below:
-
-```console
-gcc -o main main.c
-```
-After compiling the code, run it with:
-
-```console
-./main <yourAsm>.s <nameForRAMFile>
-```
-
-After you finish the main program, your instructions should be programmed into your RAM image file.
-
-Notes:
-
-The program currently running with Seg Fault without a call to a printf at the beginning of the code. Still studying the reasons behind it.
-
-References:
-
+1. RISC-V Simulation and Emulation projects
+2. SAP Experiments and Book Appendix
