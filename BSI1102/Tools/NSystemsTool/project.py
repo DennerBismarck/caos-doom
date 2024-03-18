@@ -106,13 +106,12 @@ def add():
     n_list.sort(key=sortLen, reverse = True)
     result_list = list()
     carry_list = list()
-    for i in [1, 0]:
+    for i in range(len(n_list[0]), 0):
         result_list.append(base[(base.index(n_list[0][i]) + base.index(n_list[1][i])) % len(base)])
         carry_list.append(base[(base.index(n_list[0][i]) + base.index(n_list[1][i])) // len(base)])
     print(result_list)
     print(carry_list)
         
-
 
 def sortLen(x):
     return len(x)
