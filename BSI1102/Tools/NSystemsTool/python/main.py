@@ -1,14 +1,3 @@
-#####################################################
-#                                                   #
-#   Number Systems Tool                             #
-#                                                   #
-#   Authors: Iago Gouveia Gurgel and Luiz           #
-#   Paulo de Assis Barbosa                          #
-#                                                   #
-#   --help for help with options                    #
-#                                                   #
-#####################################################
-
 import sys
 from os import system
 
@@ -36,9 +25,14 @@ def clear():
 
 def run_help():
 
-    print("This is the help menu for the tool")
-    print("Here are the setup options and how to use them")
-    print("-tex <file_name> / this option should be used when generating TeX content")
+    print("python3 main.py [OPTIONS]...\n")
+    print("produces 'as-in school' calculations using TeX align.\nAlso may be used for base conversions and overall\nlearning different basis arithmetic\n")
+    print("-tex [FILENAME]")
+    print("         produces LaTeX and writes it into a FILE. If non-specified, default output\n         will be terminal-only. If filename is not specified, creates a file with name based on current date and time.\n")
+    print("--help")
+    print("         display this help and exit\n")
+    print("Exit status:")
+    print("     0       if OK,\n     1       if minor problems,\n     2       if serious trouble")
     exit(0)
 
 
@@ -49,10 +43,10 @@ def set_tex():
         filename = sys.argv[sys.argv.index("-tex") + 1]
     except IndexError:
         print("No filename given!")
-        exit(1)
+        set_datefilename()
     except:
         print("Some error ocurred!")
-        exit(1)
+        exit(2)
     if filename[0] == "-":
         print("Invalid filename!")
         exit(1)
@@ -129,5 +123,4 @@ def convert(n_list, base):
         v_list.append(true_value)
     return v_list
 
-if __name__ == '__main__':
-    main()
+main()
