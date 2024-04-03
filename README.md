@@ -3,8 +3,10 @@ Computer Architecture and Organization Studies
 
 This repository has as it's main objective to produce didatic material for the following courses:
 
-1. BSI1102 - Introdução a Informática
-2. BSI1105 - Arquitetura de Computadores
+1. Introduction to Computer Science
+2. Computer Architecture
+3. Computer Architecture II
+4. Microcontrollers
 
 This project has as main collaborators, both MSc. Luiz Paulo de Assis Barbosa and Undergraduate Iago Gouveia Gurgel.
 
