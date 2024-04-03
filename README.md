@@ -3,7 +3,7 @@ Computer Architecture and Organization Studies
 
 This repository has as it's main objective to produce didatic material for the following courses:
 
-1. Introduction to Computer Science
+1. Digital Circuits
 2. Computer Architecture
 3. Computer Architecture II
 4. Microcontrollers
