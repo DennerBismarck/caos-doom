@@ -1,4 +1,4 @@
-# Number Systems Tool
+# Calculator API
 
 This project has the objective to create a software that initially is capable of:
 
