@@ -1,4 +1,5 @@
 from asserts import assertEqual
+from base import Base
 
 class Number:
 

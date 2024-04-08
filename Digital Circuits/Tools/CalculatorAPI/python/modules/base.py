@@ -1,5 +1,6 @@
 
-class AbstractBase:
+class Base:
 
     def __init__(self) -> None:
-        self.MAX_BASE = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        self.BASE36 = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        self.value = None
