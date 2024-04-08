@@ -1,0 +1,249 @@
+/**
+ *
+ */
+ body
+ {
+     font-size: 12px;
+     margin: 0px;
+     padding: 5px;
+     font-family: "sans", sans-serif, tahoma;
+     background-color: #b2b2b2;
+     background-image: url(../img/background.png);
+     background-position: top center;
+     background-repeat: repeat-y;
+     text-align: center;
+ }
+
+ table
+ {
+     font-size: 12px;
+     border-collapse: collapse;
+     border: 0px solid #ffffff;
+ }
+ 
+ td
+ {
+     font-family: "sans", sans-serif, tahoma;
+     border: 0px solid #000000;
+     padding: 2px;
+     padding-left: 10px;
+     padding-right: 10px;
+     border: 0px solid #000000;
+ }
+ 
+ dt
+ {
+     font-weight: bold;
+ }
+ 
+ tr
+ {
+     margin: 0px;
+ }
+ 
+ tr:hover
+ {
+     margin: 0px;
+     background: url(image/pointer.png) center left no-repeat;
+ }
+ 
+ th
+ {
+     font-family: "sans", sans-serif, tahoma;
+     border: 0px solid #000000;
+     padding: 2px;
+     padding-left: 10px;
+     padding-right: 10px;
+     font-weight: bold; 
+ }
+ 
+ a
+ {
+     color: #0066ff;
+     font-family: "sans", sans-serif, tahoma;
+     text-decoration: none;
+ }
+ 
+ a:hover
+ {
+     color: #0033cc;
+     font-family: "sans", sans-serif, tahoma;
+     text-decoration: none;
+ }
+ 
+ pre
+ {
+     padding: 5px;
+     padding-top: 0px;
+     margin: 5px;
+     text-align: justify;
+     background-color: #eeeeee;
+     border: 1px dashed #000000;
+     font-family: monospace, courier;
+ }
+ 
+ li
+ {
+     margin: 0px;
+     padding: 5px;
+ }
+ 
+ p
+ {
+     margin-bottom: 10px;
+ }
+ 
+ ul
+ {
+     margin: 0px;
+     margin-left: 20px;
+     padding: 0px;
+ }
+ 
+ ol
+ {
+     margin: 0px;
+     margin-left: 20px;
+     padding: 0px;
+ }
+ 
+ img
+ {
+     border: 0px;
+     margin: 0px;
+ }
+ 
+ hr
+ {
+     margin-top: -16px;
+     margin-bottom: 20px;
+     border: 0px;
+     border-top: 1px dotted #dcdcdc;
+ }
+ 
+ .thumb
+ {
+     margin: 0px;
+     margin-right: 5px;
+     border: 1px solid black;
+     float: left;
+ }
+ 
+ /**
+  *
+  */
+ 
+ .logo
+ {
+     margin: 0px;
+     margin-right: 10px;
+     border: 1px solid black;
+     float: left;
+ }
+ 
+ .thumb
+ {
+     margin: 0px;
+     margin-right: 5px;
+     border: 1px solid black;
+     float: left;
+ }
+ .top
+ {
+     margin-left: auto;
+     margin-right: auto;
+     padding: 10px;
+     width: 700px;
+     text-align: left;
+     font-weight: bold;
+ }
+
+ .topc
+ {
+     margin-left: auto;
+     margin-right: auto;
+     padding: 10px;
+     width: 700px;
+     text-align: center;
+     font-weight: bold;
+ }
+ 
+ .top img
+ {
+     vertical-align: middle;
+ }
+ 
+ .body
+ {
+     margin-left: auto;
+     margin-right: auto;
+     text-align: justify;
+     padding: 10px;
+     width: 680px;
+ }
+ 
+ .menu
+ {
+     margin-left: auto;
+     margin-right: auto;
+     text-align: center;
+ }
+ 
+ .photo
+ {
+     float: left;
+     margin: 0px;
+     margin-right: 10px;
+     border: 2px solid gray;
+ }
+ 
+ .news
+ {
+     margin-left: 25px;
+ }
+ 
+ .external
+ {
+     background: url(../img/link.png) center right no-repeat;
+     padding: 0 12px 0 0;
+ }
+ 
+ .foot
+ {
+     text-align: center;
+     margin-left: auto;
+     margin-right: auto;
+     padding: 10px;
+     width: 680px;
+ }
+ 
+ .notes
+ {
+     padding: 10px;
+     border: 1px dashed #000000;
+     background-color: #fcffcf;
+ }
+ 
+ .legend
+ {
+     font-weight: bold;
+ }
+ 
+ .content
+ {
+     margin-left: 20px;
+ }
+ 
+ .feed
+ {
+     margin-bottom: 30px;
+ }
+ 
+ .topic
+ {
+     margin: 0px;
+     border-bottom: 1px solid #d2d2d2;
+     color: #d2d2d2;
+     font-weight: bold;
+ }
+ 
