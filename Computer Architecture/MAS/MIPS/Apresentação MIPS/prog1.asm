@@ -1,8 +1,8 @@
-.data 0x400 # Define o ponteiro de dados para a regi„o 0x400 da memÛria no modo MARS MEMORY 16 BIT COMPACTED DATA AT 0X0000
+.data 0x400 # Define o ponteiro de dados para a regi√£o 0x400 da mem√≥ria no modo MARS MEMORY 16 BIT COMPACTED DATA AT 0X0000
 
-a: .word 5 # Adiciona 5 na memÛria na posiÁ„o 0x400 
-b: .word 7 # Adiciona 7 na memÛria na posiÁ„o 0x404
-c: .word # Adiciona um label para a regi„o 0x408 / ApÛs execuÁ„o, receber· o valor 5 + 7 = 0xc
+a: .word 5 # Adiciona 5 na mem√≥ria na posi√ß√£o 0x400 
+b: .word 7 # Adiciona 7 na mem√≥ria na posi√ß√£o 0x404
+c: .word # Adiciona um label para a regi√£o 0x408 / Ap√≥s execu√ß√£o, receber√° o valor 5 + 7 = 0xc
 
 .text
 
