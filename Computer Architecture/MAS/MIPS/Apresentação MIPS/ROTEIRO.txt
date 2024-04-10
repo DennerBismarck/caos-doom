@@ -5,10 +5,10 @@ TEMA: Apresentação das versões de microprocessador MIPS 32 bits Multiciclo e 
 Setting up:
 
 1. Abrir a apresentação
-2. Abrir a imagem do programa
+2. Abrir os programas no MARS
 3. Abrir o Ciclo Único
 4. Abrir o Multiciclo
-5. Abrir Matriz de Controle Malvino
+5. Abrir Matriz de Controle Malvino do SAP-1 Multiciclo
 
 1. Introdução ao tema e ao trabalho
 
@@ -20,7 +20,7 @@ Setting up:
 
 3. Montagem de um programa
 
-	- Apresentar a montagem de um programa e também as imagens em memória.
+	- Apresentar a montagem dos programas e também as imagens em memória.
 
 4.1 Apresentação do caminho de dados Ciclo Único
 
@@ -39,6 +39,8 @@ Setting up:
 5.2 Apresentação do funcionamento do Multiciclo
 
 	- Rodar o programa e explicar o que está acontecendo e os sinais mais importantes.
+		- Quais os sinais mais importantes?
+		- O que acontece em cada estágio das instruções
 
 6. Constrastes entre as duas versões
 
