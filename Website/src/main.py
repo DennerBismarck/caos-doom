@@ -21,3 +21,11 @@ def studentsPage():
 @app.route("/~lpab/students/<name>")
 def studentCurriculum(name=None):
     return f"<p> Hello, {name} </p>"
+
+@app.route("/~lpab/materials")
+def materialsPage():
+    return "<p> Materials Page Listing </p>"
+
+@app.route("/~lpab/materials/<index>")
+def materialUnitPage(index=None):
+    return f"<p> This is material {index}. </p>"
