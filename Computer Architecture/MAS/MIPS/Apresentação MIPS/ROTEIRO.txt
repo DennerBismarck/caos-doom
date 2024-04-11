@@ -8,7 +8,6 @@ Setting up:
 2. Abrir os programas no MARS
 3. Abrir o Ciclo Único
 4. Abrir o Multiciclo
-5. Abrir Matriz de Controle Malvino do SAP-1 Multiciclo
 
 1. Introdução ao tema e ao trabalho
 
